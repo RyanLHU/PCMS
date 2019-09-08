@@ -1,4 +1,0 @@
-1. Crash course of C++ (for junior)
-https://github.com/rougier/cpp-crash-course
-
-2. Luogu Registration (for everyone)
