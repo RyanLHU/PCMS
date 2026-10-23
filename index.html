@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="PCMS 競程講義：2024 CCPC 山東邀請賽四題解析，從環狀下標、後綴和到二分圖匹配與線段樹。">
+  <meta name="theme-color" content="#12374c">
+  <title>PCMS · 競程講義 | 2027</title>
+  <style>
+    :root{color-scheme:light;--ink:#12374c;--muted:#536b7b;--teal:#147c8c;--paper:#f3f7fb;--line:#d4e1e9}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:system-ui,-apple-system,"Microsoft JhengHei","Noto Sans TC",sans-serif;line-height:1.65}
+    a{color:var(--teal);text-underline-offset:4px}a:focus-visible{outline:3px solid #d88926;outline-offset:5px;border-radius:3px}
+    .skip{position:absolute;left:20px;top:-100px;background:white;padding:10px;z-index:5}.skip:focus{top:10px}
+    .wrap{width:min(1120px,calc(100% - 48px));margin:auto}header{border-bottom:1px solid var(--line)}nav{display:flex;justify-content:space-between;align-items:center;min-height:80px;gap:20px}.brand{font-weight:800;font-size:21px;letter-spacing:.06em}.brand span{font-weight:400;color:var(--muted);font-size:15px;letter-spacing:0;margin-left:14px}.nav-link{font-size:14px;text-decoration:none}
+    main{padding:54px 0 64px}.eyebrow{font-size:12px;letter-spacing:.15em;font-weight:750;color:var(--teal);margin:0 0 14px}h1{font-size:clamp(32px,5vw,52px);letter-spacing:-.04em;line-height:1.2;margin:0 0 16px}.intro{color:var(--muted);max-width:660px;margin:0 0 34px;font-size:17px}
+    .feature{display:grid;grid-template-columns:1.25fr 1fr;border:1px solid var(--line);border-radius:18px;overflow:hidden;background:white;box-shadow:0 14px 45px #12374c08}.feature-copy{padding:36px}.meta{display:flex;gap:12px;align-items:center;color:var(--muted);font-size:13px}.badge{background:#e0eff3;color:var(--teal);padding:3px 10px;border-radius:5px;font-weight:650}h2{font-size:28px;line-height:1.35;margin:18px 0 12px}.feature-copy>p{color:var(--muted);margin:0 0 24px}.actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap}.button{display:inline-flex;align-items:center;justify-content:center;gap:22px;padding:12px 21px;border-radius:7px;background:var(--teal);color:white;text-decoration:none;font-weight:700;transition:background .15s}.button:hover{background:#105e6b}.secondary{font-size:14px}.preview{background:#12374c;color:#dcecf3;display:flex;flex-direction:column;justify-content:center;padding:32px;border-left:1px solid var(--line)}.preview-label{font-size:12px;letter-spacing:.12em;color:#9fced5;margin-bottom:18px}.preview ol{list-style:none;margin:0;padding:0}.preview li{display:flex;gap:14px;align-items:center;padding:11px 0;border-bottom:1px solid #ffffff21}.preview li:last-child{border:0}.number{font-family:ui-monospace,monospace;color:#80d3d4;font-size:13px}.preview strong{display:block;font-size:16px;font-weight:600}.preview small{display:block;color:#adc4d0;font-size:12px}
+    .section-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin:36px 0 14px}.section-head h2{font-size:20px;margin:0}.section-head span{font-size:13px;color:var(--muted)}.topics{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.topic{padding:22px;background:white;border:1px solid var(--line);border-radius:10px}.topic-id{font-family:ui-monospace,monospace;font-size:12px;color:var(--teal)}h3{font-size:16px;margin:8px 0}.topic p{font-size:14px;color:var(--muted);margin:0}.tag{display:inline-block;font-size:11px;margin-top:16px;padding:3px 8px;border-radius:4px;background:#edf3f7;color:var(--muted)}
+    .resources{margin-top:30px;border-top:1px solid var(--line);padding-top:22px;display:flex;align-items:center;gap:22px;flex-wrap:wrap}.resources h2{font-size:15px;margin:0}.resources a{font-size:14px}footer{padding:22px 0;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+    @media(max-width:800px){.feature{grid-template-columns:1fr}.preview{border-left:0}.topics{grid-template-columns:repeat(2,1fr)}.feature-copy{padding:26px}main{padding-top:32px}}
+    @media(max-width:480px){.wrap{width:calc(100% - 32px)}.brand span{display:none}.topics{grid-template-columns:1fr}.section-head{display:block}.preview{padding:24px}.resources{align-items:flex-start;flex-direction:column;gap:12px}.button{width:100%}.actions{gap:14px}h2{font-size:24px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.button{transition:none}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">跳至主要內容</a>
+  <header><nav class="wrap" aria-label="主要導覽"><div class="brand">PCMS<span>競程講義 / 2027</span></div><a class="nav-link" href="#tutorials">課程與資源 ↓</a></nav></header>
+  <main id="main" class="wrap">
+    <p class="eyebrow">COMPETITIVE PROGRAMMING · COURSE LIBRARY</p>
+    <h1>從例子出發，理解演算法。</h1>
+    <p class="intro">題意、圖解、推導與程式實作。依照解題步驟，逐步建立競賽程式設計的思考方式。</p>
+    <section id="tutorials" aria-labelledby="tutorial-title" class="feature">
+      <div class="feature-copy">
+        <div class="meta"><time datetime="2026-10-24">2026.10.24</time><span class="badge">4 題解析</span></div>
+        <h2 id="tutorial-title">2024 CCPC<br>山東邀請賽</h2>
+        <p>從字串左移與序列切割入門，再進入二分圖匹配、DFS 增廣與線段樹的區間通知。</p>
+        <div class="actions"><a class="button" href="20261024/20261024%202024%20CCPC%20%E5%B1%B1%E6%9D%B1%E9%82%80%E8%AB%8B%E8%B3%BD.html">開啟投影片 <span aria-hidden="true">↗</span></a><a class="secondary" href="#resources">題目與解答 PDF ↓</a></div>
+      </div>
+      <div class="preview" aria-label="投影片內容順序">
+        <div class="preview-label">LEARNING PATH / 學習路線</div>
+        <ol>
+          <li><span class="number">01</span><div><strong>I · Left Shifting</strong><small>環狀下標 → 線性枚舉</small></div></li>
+          <li><span class="number">02</span><div><strong>F · Divide the Sequence</strong><small>切點貢獻 → 後綴和與排序</small></div></li>
+          <li><span class="number">03</span><div><strong>H · Stop the Castle</strong><small>攻擊對 → 二分圖最大匹配</small></div></li>
+          <li><span class="number">04</span><div><strong>E · Sensors</strong><small>區間分解 → 封頂通知</small></div></li>
+        </ol>
+      </div>
+    </section>
+    <section aria-labelledby="topics-title">
+      <div class="section-head"><h2 id="topics-title">這份講義會學到什麼？</h2><span>依投影片順序，由入門到進階</span></div>
+      <div class="topics">
+        <article class="topic"><span class="topic-id">PROBLEM I</span><h3>環狀字串</h3><p>追蹤左移後的首尾下標，找出最小合法位移。</p><span class="tag">枚舉 · O(n)</span></article>
+        <article class="topic"><span class="topic-id">PROBLEM F</span><h3>切割的貢獻</h3><p>將加權段和化成後綴和，以排序產生所有段數的答案。</p><span class="tag">貪心 · O(n log n)</span></article>
+        <article class="topic"><span class="topic-id">PROBLEM H</span><h3>匹配與增廣</h3><p>把棋盤轉成二分圖，透過逐步圖解理解 DFS 重新配對。</p><span class="tag">二分圖 · 匈牙利演算法</span></article>
+        <article class="topic"><span class="topic-id">PROBLEM E</span><h3>區間狀態通知</h3><p>以線段樹分解區間，只在關鍵計數變化時通知感測器。</p><span class="tag">線段樹 · 攤銷分析</span></article>
+      </div>
+    </section>
+    <section id="resources" class="resources" aria-labelledby="resources-title">
+      <h2 id="resources-title">課程資源</h2>
+      <a href="20261024/%2820261024%29%202024shandong-en.pdf">官方題目 <span>(PDF)</span></a>
+      <a href="20261024/%2820261024%29%202024shandong-en%20%28solution%29.pdf">官方解答 <span>(PDF)</span></a>
+      <a href="20261024/20261024%202024%20CCPC%20%E5%B1%B1%E6%9D%B1%E9%82%80%E8%AB%8B%E8%B3%BD.md" download>投影片原始檔 <span>(Markdown)</span></a>
+    </section>
+  </main>
+  <footer><div class="wrap"><span>PCMS · Competitive Programming</span><span>2027 課程資料庫</span></div></footer>
+</body>
+</html>
